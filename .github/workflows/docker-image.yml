@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag nao20010128nao/nginx-git
+    - name: Login Docker
+      run: docker login --username nao20010128nao --password ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Push to Docker
+      run: docker push nao20010128nao/nginx-git
