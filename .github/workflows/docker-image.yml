@@ -5,18 +5,19 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag nao20010128nao/nginx-git
     - name: Login Docker
       run: docker login --username nao20010128nao --password ${{ secrets.DOCKERHUB_PASSWORD }}
+      if: ${{ github.event_name != 'pull_request' }}
     - name: Push to Docker
       run: docker push nao20010128nao/nginx-git
+      if: ${{ github.event_name != 'pull_request' }}
