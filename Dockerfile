@@ -4,7 +4,7 @@ LABEL maintainer="Marco Pompili"
 LABEL email="docker@mg.odd.red"
 
 RUN apt-get -q -q update && \
-    apt-get -y install gettext-base nginx fcgiwrap git
+    apt-get -y install gettext-base nginx fcgiwrap git apache2-utils
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -12,7 +12,7 @@ RUN useradd nginx
 
 RUN mkdir /srv/git
 
-VOLUME ["/srv/git", "/var/log/nginx"]
+# VOLUME ["/srv/git", "/var/log/nginx"]
 
 COPY default.conf /etc/nginx/conf.d/
 
